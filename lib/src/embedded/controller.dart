@@ -29,9 +29,8 @@ class MapBoxNavigationViewController {
   late StreamSubscription<RouteEvent> _routeEventSubscription;
 
   ///Current Device OS Version
-  Future<String> get platformVersion => _methodChannel
-      .invokeMethod('getPlatformVersion')
-      .then((dynamic result) => result as String);
+  Future<String> get platformVersion =>
+      _methodChannel.invokeMethod('getPlatformVersion').then((dynamic result) => result as String);
 
   ///Total distance remaining in meters along route.
   Future<double> get distanceRemaining => _methodChannel
@@ -59,7 +58,7 @@ class MapBoxNavigationViewController {
       assert(
         options!.mode != MapBoxNavigationMode.drivingWithTraffic,
         '''
-          Error: Cannot use drivingWithTraffic Mode 
+          Error: Cannot use drivingWithTraffic Mode
           when you have more than 3 Stops
         ''',
       );
@@ -83,16 +82,14 @@ class MapBoxNavigationViewController {
     }
 
     var i = 0;
-    final wayPointMap = {for (var e in pointList) i++: e};
+    final wayPointMap = {for (final e in pointList) i++: e};
 
     var args = <String, dynamic>{};
     if (options != null) args = options.toMap();
     args['wayPoints'] = wayPointMap;
 
     _routeEventSubscription = _streamRouteEvent!.listen(_onProgressData);
-    return _methodChannel
-        .invokeMethod('buildRoute', args)
-        .then((dynamic result) => result as bool);
+    return _methodChannel.invokeMethod('buildRoute', args).then((dynamic result) => result as bool);
   }
 
   /// starts listening for events

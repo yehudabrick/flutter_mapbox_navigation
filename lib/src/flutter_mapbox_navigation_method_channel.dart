@@ -10,8 +10,7 @@ import 'package:flutter_mapbox_navigation/src/models/models.dart';
 
 /// An implementation of [FlutterMapboxNavigationPlatform]
 /// that uses method channels.
-class MethodChannelFlutterMapboxNavigation
-    extends FlutterMapboxNavigationPlatform {
+class MethodChannelFlutterMapboxNavigation extends FlutterMapboxNavigationPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   final methodChannel = const MethodChannel('flutter_mapbox_navigation');
@@ -25,22 +24,19 @@ class MethodChannelFlutterMapboxNavigation
 
   @override
   Future<String?> getPlatformVersion() async {
-    final version =
-        await methodChannel.invokeMethod<String>('getPlatformVersion');
+    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
   }
 
   @override
   Future<double?> getDistanceRemaining() async {
-    final distance =
-        await methodChannel.invokeMethod<double?>('getDistanceRemaining');
+    final distance = await methodChannel.invokeMethod<double?>('getDistanceRemaining');
     return distance;
   }
 
   @override
   Future<double?> getDurationRemaining() async {
-    final duration =
-        await methodChannel.invokeMethod<double?>('getDurationRemaining');
+    final duration = await methodChannel.invokeMethod<double?>('getDurationRemaining');
     return duration;
   }
 
@@ -68,7 +64,7 @@ class MethodChannelFlutterMapboxNavigation
 
     final pointList = _getPointListFromWayPoints(wayPoints);
     var i = 0;
-    final wayPointMap = {for (var e in pointList) i++: e};
+    final wayPointMap = {for (final e in pointList) i++: e};
 
     final args = options.toMap();
     args['wayPoints'] = wayPointMap;
@@ -85,7 +81,7 @@ class MethodChannelFlutterMapboxNavigation
     assert(wayPoints.isNotEmpty, 'Error: WayPoints must be at least 1');
     final pointList = _getPointListFromWayPoints(wayPoints);
     var i = 0;
-    final wayPointMap = {for (var e in pointList) i++: e};
+    final wayPointMap = {for (final e in pointList) i++: e};
     final args = <String, dynamic>{};
     args['wayPoints'] = wayPointMap;
     await methodChannel.invokeMethod('addWayPoints', args);
@@ -101,8 +97,7 @@ class MethodChannelFlutterMapboxNavigation
   /// to allow offline routing
   @override
   Future<bool?> enableOfflineRouting() async {
-    final success =
-        await methodChannel.invokeMethod<bool?>('enableOfflineRouting');
+    final success = await methodChannel.invokeMethod<bool?>('enableOfflineRouting');
     return success;
   }
 
@@ -135,8 +130,7 @@ class MethodChannelFlutterMapboxNavigation
   RouteEvent _parseRouteEvent(String jsonString) {
     RouteEvent event;
     final map = json.decode(jsonString);
-    final progressEvent =
-        RouteProgressEvent.fromJson(map as Map<String, dynamic>);
+    final progressEvent = RouteProgressEvent.fromJson(map as Map<String, dynamic>);
     if (progressEvent.isProgressEvent!) {
       event = RouteEvent(
         eventType: MapBoxEvent.progress_change,
